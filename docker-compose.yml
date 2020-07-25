@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  app.local:
+    image: jvmoreira/laravel
+    container_name: app.local
+    working_dir: /var/www/
+    depends_on:
+      - mysql.local
+    volumes:
+      - ./:/var/www
+    environment:
+      COMPOSER_VERSION: 1.10.9
+      NODE_VERSION: 12.18.3
+    ports:
+      - 8000:8000
+      - 3000:3000
+      - 3001:3001
+
+  mysql.local:
+    image: mysql:5.7
+    container_name: mysql.local
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_ROOT_PASSWORD: ''
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker-compose/mysql:/var/lib/mysql
+
+# SSH Key (Optional)
+#secrets:
+#  sshkey:
+#    file: ~/.ssh/id_rsa
